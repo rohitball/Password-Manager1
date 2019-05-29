@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.*;
 
@@ -20,6 +21,8 @@ public class AccountController {
 	TextField username;
 	@FXML
 	TextField password;
+	@FXML
+	TextArea others;
 	@FXML
 	private Button del;
 	@FXML
@@ -40,6 +43,7 @@ public class AccountController {
 		account.setText(RamDB.acc_db[index].account);
 		username.setText(RamDB.acc_db[index].username);
 		password.setText(RamDB.acc_db[index].password);
+		others.setText(RamDB.acc_db[index].others);
 		
 		this.index = index;		
 	}
@@ -54,6 +58,7 @@ public class AccountController {
 		RamDB.acc_db[index].account = "";
 		RamDB.acc_db[index].username = "";
 		RamDB.acc_db[index].password = "";
+		RamDB.acc_db[index].others = "";
 		
 		try {
 			loginModel.closeConnection();
@@ -79,9 +84,10 @@ public class AccountController {
 		RamDB.acc_db[index].account = account.getText();
 		RamDB.acc_db[index].username = username.getText();
 		RamDB.acc_db[index].password = password.getText();
+		RamDB.acc_db[index].others = others.getText();
 				
-		if( false == loginModel.updateAccountList(index, account.getText(), username.getText(), password.getText())) {
-			if(true == loginModel.insertAccountList(index, account.getText(), username.getText(), password.getText())) {
+		if( false == loginModel.updateAccountList(index, account.getText(), username.getText(), password.getText(), others.getText())) {
+			if(true == loginModel.insertAccountList(index, account.getText(), username.getText(), password.getText(), others.getText())) {
 				MainController.addAccButton(index);
 			}else {
 //				System.out.println("A new button not added");

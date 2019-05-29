@@ -20,6 +20,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -93,6 +94,8 @@ public class LoginController implements Initializable {
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Password Manager " + Version.GetVersion());
+		primaryStage.getIcons().add(new Image("img/img.png"));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 	
@@ -130,7 +133,7 @@ public class LoginController implements Initializable {
 				}
 				
 				System.out.println("id "+ resultSet.getInt("id") + " account " + resultSet.getString("account") + " username " + resultSet.getString("username") + " password " + resultSet.getString("password"));
-				RamDB.SetAccountEntry(index, resultSet.getInt("id"), resultSet.getString("account"), resultSet.getString("username"), resultSet.getString("password"));			
+				RamDB.SetAccountEntry(index, resultSet.getInt("id"), resultSet.getString("account"), resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("others"));			
 				loginModel.updateAccountId(resultSet.getInt("id"), index);
 				index++;
 			}while(resultSet.next());
@@ -166,7 +169,7 @@ public class LoginController implements Initializable {
 				break;//No entries in database
 			}
 			
-			RamDB.SetAccountEntry(index, resultSet.getInt("id"), resultSet.getString("account"), resultSet.getString("username"), resultSet.getString("password"));			
+			RamDB.SetAccountEntry(index, resultSet.getInt("id"), resultSet.getString("account"), resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("others"));			
 			loginModel.updateAccountId(resultSet.getInt("id"), index);
 			index++;
 		}while(resultSet.next());

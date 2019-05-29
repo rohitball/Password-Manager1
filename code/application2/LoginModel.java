@@ -5,8 +5,18 @@ import java.sql.*;
 public class LoginModel {
 	private Connection connection;
 	public boolean isPasswdSet;
+	static LoginModel loginModel;
 	
 	public LoginModel() {
+		
+		try {
+			loginModel.connection.close();
+		}catch(Exception e) {
+			
+		}
+		
+		loginModel = this;
+		
 		connection = SqliteConnection.Connector();
 				
 		isPasswdSet = false;
@@ -47,7 +57,7 @@ public class LoginModel {
 		
 		preparedStatement.executeUpdate();
 		
-		String query2 = "CREATE TABLE IF NOT EXISTS accountList(id integer, account text, username text, password text)";
+		String query2 = "CREATE TABLE IF NOT EXISTS accountList(id integer, account text, username text, password text, others text)";
 			
 		preparedStatement = connection.prepareStatement(query2);
 			
@@ -103,16 +113,17 @@ public class LoginModel {
 		}
 	}
 	
-	public boolean addAccountList(String account, String username, String password) {
+	public boolean addAccountList(String account, String username, String password, String others) {
 		PreparedStatement preparedStatement;
-		String query = "INSERT INTO accountList(account,username,password) VALUES(?,?,?)";
+		String query = "INSERT INTO accountList(account,username,password,others) VALUES(?,?,?,?)";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, account);
 			preparedStatement.setString(2, username);
 			preparedStatement.setString(3, password);
-			
+			preparedStatement.setString(4, others);
+						
 			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -142,9 +153,9 @@ public class LoginModel {
 		}
 	}
 	
-	public boolean insertAccountList(int id, String account, String username, String password) {
+	public boolean insertAccountList(int id, String account, String username, String password, String others) {
 		PreparedStatement preparedStatement;
-		String query = "INSERT INTO accountList(id, account, username, password) VALUES(?,?,?,?)";
+		String query = "INSERT INTO accountList(id, account, username, password, others) VALUES(?,?,?,?,?)";
 				
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -153,6 +164,7 @@ public class LoginModel {
 			preparedStatement.setString(2, account);
 			preparedStatement.setString(3, username);
 			preparedStatement.setString(4, password);
+			preparedStatement.setString(5, others);
 			
 			System.out.println("insertAccountList() account "+account+" id "+id + " username "+ username + " password " + password);
 			
@@ -201,9 +213,9 @@ public class LoginModel {
 		}
 	}
 	
-	public boolean updateAccountList(int id, String account, String username, String password) {
+	public boolean updateAccountList(int id, String account, String username, String password, String others) {
 		PreparedStatement preparedStatement;
-		String query = "UPDATE accountList SET account = ?, username = ?, password = ? WHERE id = ?";
+		String query = "UPDATE accountList SET account = ?, username = ?, password = ?, others = ? WHERE id = ?";
 				
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -211,9 +223,10 @@ public class LoginModel {
 			preparedStatement.setString(1, account);
 			preparedStatement.setString(2, username);
 			preparedStatement.setString(3, password);
-			preparedStatement.setInt(4, id);
+			preparedStatement.setString(4, others);
+			preparedStatement.setInt(5, id);
 			
-			System.out.println("updateAccountList() "+account+id);
+			System.out.println("updateAccountList() "+account+id+others);
 			
 			try {
 				if(0 != preparedStatement.executeUpdate()) {
@@ -234,7 +247,7 @@ public class LoginModel {
 	public ResultSet readAccountList() {
 		PreparedStatement preparedStatement;
 		ResultSet resultSet;
-		String query = "SELECT id,account,username,password from accountList";
+		String query = "SELECT id,account,username,password,others from accountList";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);

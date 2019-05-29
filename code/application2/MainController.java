@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -66,6 +67,8 @@ public class MainController {
 				accountController.HideDelButton();
 				accountController.ChangeButtonName();
 				
+				secondaryStage.getIcons().add(new Image("img/img.png"));
+				secondaryStage.setResizable(false);
 				secondaryStage.show();
 				} catch(Exception e) {
 		//			e.fillInStackTrace("df");
@@ -130,6 +133,8 @@ public class MainController {
 	
 	public void launchApplication() {
 		//Show the application main window
+		primaryStage.getIcons().add(new Image("img/img.png"));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 		
@@ -141,7 +146,7 @@ public class MainController {
 		
 		//Child 1 - scroll pane
 		ScrollPane child1_sp = new ScrollPane();
-		child1_sp.setPrefHeight(700.0);
+		child1_sp.setPrefHeight(750.0);
 		child1_sp.setPrefWidth(700.0);
 		child1_sp_content_ap = new AnchorPane();	
 		
@@ -196,6 +201,8 @@ public class MainController {
 								
 		secondaryStage.setScene(scene);
 		secondaryStage.setTitle("Password Manager " + Version.GetVersion());
+		secondaryStage.getIcons().add(new Image("img/img.png"));
+		secondaryStage.setResizable(false);
 		secondaryStage.show();
 		
 	}
@@ -208,6 +215,8 @@ public class MainController {
 		scene.getStylesheets().add(MainController.class.getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Password Manager " + Version.GetVersion());
 		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image("img/img.png"));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 		
 		((Node)event.getSource()).getScene().getWindow().hide();
